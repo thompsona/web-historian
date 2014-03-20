@@ -21,3 +21,16 @@ exports.serveAssets = function(res, asset) {
 };
 
 // As you progress, keep thinking about what helper functions you can put here!
+
+//func
+//use helper to check if in list
+//if yes, load page
+//if no, add to list then load page
+exports.listHandler = function(res, asset) {
+
+  res.writeHead(200, headers);
+  var fileStream = fs.createReadStream(archive.paths.archivedSites + asset);
+    fileStream.on('data', function (data) {
+        res.end(data);
+    });
+};

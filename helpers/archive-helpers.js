@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var urlArray;
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -26,20 +27,22 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(){
-  fs.readFile(paths.list, function (err, data) {
-  if (err) throw err;
-  console.log(data);
-});
-  //returns array of urls?
+  fs.readFile(this.paths['list'], function (err, data) {
+    if (err) throw err;
+    urlArray = data.toString().split('\n');
+    console.log('urlArray is now: ', urlArray);
+  });
 };
 
-exports.isUrlInList = function(){
-  //get readListofUrls, return t/f if url is in list
+exports.isUrlInList = function(url){
+  return urlArray.indexOf(url) !== -1;
 };
 
 exports.addUrlToList = function(url){
-  //if isUrlInList is false, write passed in url to list
-  //check if isURLArchived, if not, downloadUrls
+  fs.appendFile(this.paths['list'], '\n' + url, function (err) {
+    if (err) throw err;
+    console.log('The "data to append" was appended to file!');
+  });
 };
 
 exports.isURLArchived = function(){
