@@ -26,16 +26,26 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(){
+  fs.readFile(paths.list, function (err, data) {
+  if (err) throw err;
+  console.log(data);
+});
+  //returns array of urls?
 };
 
 exports.isUrlInList = function(){
+  //get readListofUrls, return t/f if url is in list
 };
 
-exports.addUrlToList = function(){
+exports.addUrlToList = function(url){
+  //if isUrlInList is false, write passed in url to list
+  //check if isURLArchived, if not, downloadUrls
 };
 
 exports.isURLArchived = function(){
+  //if url file exists, return true else false
 };
 
 exports.downloadUrls = function(){
+  //scrape website somehow and create a new file (fs.open), add it to archives/sites
 };
