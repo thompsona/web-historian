@@ -5,9 +5,11 @@ var archive = require('../helpers/archive-helpers');
 var path = require('path');
 var fs = require('fs');
 var httpHelpers = require('../web/http-helpers');
+var cronr = require('./cronrunner.js')
 
-var redirect = function(req, res) {
-  res.writeHeader(302, {'Location': '/loading.html'});  
+var redirect = function(req, res, location) {
+  res.writeHeader(302, {'Location': location});
+  res.end();
 }
 exports.poster = function(req, res) {
   var url;
@@ -19,8 +21,7 @@ exports.poster = function(req, res) {
     if(!archive.isUrlInList(url)) {
       archive.addUrlToList(url);
       archive.readListOfUrls();
-      redirect(req, res);
-      res.end();
+      redirect(req, res, "/loading.html");
       // console.log("URL to download: ", url);
       // archive.readListOfUrls(function(urlList){
       //   console.log("IGOTURLS: ", urlList);
@@ -31,12 +32,13 @@ exports.poster = function(req, res) {
       archive.isURLArchived(url, function(filesArray) {
         //if url file is archived
         if(filesArray.indexOf(url) !== -1) {
-          httpHelpers.serveScrapedSites(res, '/' + url);          
+          // redirect(req, res, "/" + url);
+          httpHelpers.serveScrapedSites(res, '/' + url);
         }
         //if url file is not archived
         else {
-          redirect(req, res);
-          res.end();
+          redirect(req, res, "/loading.html");
+          // res.end();
         }
       })
     }
@@ -47,6 +49,7 @@ exports.getter = function(req, res) {
   var url = req.url.slice(1);
   if(req.url.indexOf('www.') !== -1) {
       if(archive.isUrlInList(url)) {
+        // redirect(req, res, "/" + url);
         httpHelpers.serveScrapedSites(res, req.url);
       }
       else {

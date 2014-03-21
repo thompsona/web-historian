@@ -1,9 +1,11 @@
+console.log("starting cronrunner.js");
 var http = require('http');
-var archive = require('../helpers/archive-helpers');
-var path = require('path');
-var fs = require('fs');
-var httpHelpers = require('../web/http-helpers');
+var archive = require('/Users/hackreactor/warren/2014-02-web-historian/helpers/archive-helpers');
 
+var CronJob = require('cron').CronJob;
+new CronJob('*/5 * * * * *', function(){
+    console.log('You will see this message every second');
+}, null, true, "America/Los_Angeles");
 
 //loop through sites in sites.txt, check against archived sites
 
